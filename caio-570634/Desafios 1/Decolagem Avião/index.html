@@ -114,16 +114,21 @@
 
     <script>
         const btn = document.getElementById('btnVerificar');
+        const campoTexto = document.getElementById('resultado-logica');
         //Chamar váriavel campoTexto seguir padrão de da variavel btn usando objeto (resultado-logica)
 
         btn.addEventListener('click', () => {
-            // Entradas de dados
             const combustivel = parseFloat(document.getElementById('combustivel').value);
-            //criar variável peso seguir padrão de da variavel combustivel
-             //criar variável vento seguir padrão de variavel combustivel
+            const peso = parseFloat(document.getElementById('peso').value);
+            const vento = parseFloat(document.getElementById('vento').value);
+            // Entradas de dados
             const flapsAjustados = document.getElementById('flaps').checked;
-            //criar Variável autorizacaoTorre vento seguir padrão de variavel flapsAjustados
+            const autorizacaoTorre = document.getElementById('torre').checked;
 
+            //criar Variável autorizacaoTorre vento seguir padrão de variavel flapsAjustados
+            //criar variável peso seguir padrão de da variavel combustivel
+            //criar variável vento seguir padrão de variavel combustivel
+            
             let mensagem = "";
             let cor = "";
             let decolagemOk = true;
@@ -146,15 +151,41 @@
 
            // --- RESULTADO FINAL ---
             if (decolagemOk) {
+                mensagem_autorizacao_voo = "DECOLAGEM AUTORIZADA. COMBUSTIVEL OK, FLAPS AJUSTADOS, VELOCIDADE DO VENTO OK, PESO DENTRO DO PADRÃO E AUTORIZAÇÃO DA TORRE! DECOLAR!";
+                decolagemOk = true; // positivo para decolar
+                cor = "#3fb950";
+             } // cor autorizada
                 //Coloque aqui o resultado final
-            } else {
-                //Saida padrão
+            else if (combustivel < 50) {
+                mensagem = "DECOLAGEM ABORTADA: Combustível insuficiente.";
+                decolagemOk = false;
+            }
+            else if (peso > 80){
+                mensagem = "DECOLAGEM ABORTADA: Peso excessivo.";
+                decolagemOk = false;
+            }
+            else if(vento > 90){
+                mensagem = "DECOLAGEM ABORTADA! Ventos fortes na pista."
+                decolagemOk = false;
+            }
+            else if(!flapsAjustados) { // invertendo booleano com !
+                mensagem = "DECOLAGEM ABORTADA: Flaps não ajustados.";
+                decolagemOk = false;
+            }
+
+            if(decolagemOk){
+                 mensagem = "DECOLAGEM AUTORIZADA! Tudo dentro dos padrões.";
+                 cor = "#3fb950";
+            }
+            else{
+                mensagem = "DECOLAGEM NÃO AUTORIZADA!";
+                cor = "#f85149";
             }
            
 
-            campoTexto.innerText = mensagem;
-            campoTexto.style.color = cor;
-            //Chamar borderColor seguir padrão display.style.color = cor;
+                campoTexto.innerText = mensagem; 
+                campoTexto.style.color = cor;
+            //Chamar bordserColor seguir padrão display.style.color = cor;
         });
     </script>
     
