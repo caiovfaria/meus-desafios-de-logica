@@ -115,79 +115,60 @@
     <script>
         const btn = document.getElementById('btnVerificar');
         const campoTexto = document.getElementById('resultado-logica');
-        //Chamar váriavel campoTexto seguir padrão de da variavel btn usando objeto (resultado-logica)
 
         btn.addEventListener('click', () => {
             const combustivel = parseFloat(document.getElementById('combustivel').value);
             const peso = parseFloat(document.getElementById('peso').value);
             const vento = parseFloat(document.getElementById('vento').value);
-            // Entradas de dados
+
             const flapsAjustados = document.getElementById('flaps').checked;
             const autorizacaoTorre = document.getElementById('torre').checked;
 
-            //criar Variável autorizacaoTorre vento seguir padrão de variavel flapsAjustados
-            //criar variável peso seguir padrão de da variavel combustivel
-            //criar variável vento seguir padrão de variavel combustivel
-            
             let mensagem = "";
             let cor = "";
             let decolagemOk = true;
 
-            //"#3fb950"; // Verde
-            //"#f85149"; //Vermelho
-            //"#d29922"; // Amarelo
-
-            // --- LÓGICA DE SEGURANÇA (Regras de Negócio) ---
-
-            //Exemplo lógico da váriavel
-            if (!autorizacaoTorre) {
-                mensagem = "DECOLAGEM ABORTADA: Aguardando liberação da Torre.";
+            // Validação
+            if (isNaN(combustivel) || isNaN(peso) || isNaN(vento)) {
+                mensagem = "Preencha todos os campos numéricos!";
                 decolagemOk = false;
-                cor = "#f85149"; // Rosa/Vermelho
-            } 
-            //Continue Aqui a lógica de bloqueio do voo......
+            }
 
-
-
-           // --- RESULTADO FINAL ---
-            if (decolagemOk) {
-                mensagem_autorizacao_voo = "DECOLAGEM AUTORIZADA. COMBUSTIVEL OK, FLAPS AJUSTADOS, VELOCIDADE DO VENTO OK, PESO DENTRO DO PADRÃO E AUTORIZAÇÃO DA TORRE! DECOLAR!";
-                decolagemOk = true; // positivo para decolar
-                cor = "#3fb950";
-             } // cor autorizada
-                //Coloque aqui o resultado final
+            // Regras
+            else if (!autorizacaoTorre) {
+                mensagem = "DECOLAGEM ABORTADA: Aguardando autorização da torre.";
+                decolagemOk = false;
+            }
             else if (combustivel < 50) {
                 mensagem = "DECOLAGEM ABORTADA: Combustível insuficiente.";
                 decolagemOk = false;
             }
-            else if (peso > 80){
-                mensagem = "DECOLAGEM ABORTADA: Peso excessivo.";
+            else if (peso > 80) {
+                mensagem = "DECOLAGEM ABORTADA: Peso acima do permitido.";
                 decolagemOk = false;
             }
-            else if(vento > 90){
-                mensagem = "DECOLAGEM ABORTADA! Ventos fortes na pista."
+            else if (vento > 90) {
+                mensagem = "DECOLAGEM ABORTADA: Ventos muito fortes.";
                 decolagemOk = false;
             }
-            else if(!flapsAjustados) { // invertendo booleano com !
+            else if (!flapsAjustados) {
                 mensagem = "DECOLAGEM ABORTADA: Flaps não ajustados.";
                 decolagemOk = false;
             }
 
-            if(decolagemOk){
-                 mensagem = "DECOLAGEM AUTORIZADA! Tudo dentro dos padrões.";
-                 cor = "#3fb950";
-            }
-            else{
-                mensagem = "DECOLAGEM NÃO AUTORIZADA!";
+            // Resultado final
+            if (decolagemOk) {
+                mensagem = "DECOLAGEM AUTORIZADA! Todos os parâmetros estão dentro do padrão.";
+                cor = "#3fb950";
+            } else {
                 cor = "#f85149";
             }
-           
 
-                campoTexto.innerText = mensagem; 
-                campoTexto.style.color = cor;
-            //Chamar bordserColor seguir padrão display.style.color = cor;
+            campoTexto.innerText = mensagem;
+            campoTexto.style.color = cor;
+            campoTexto.style.borderColor = cor;
         });
     </script>
-    
+
 </body>
 </html>
